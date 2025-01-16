@@ -49,6 +49,18 @@ def parse_user_parts_file(user_parts_file):
             parts_list.append(part)
     return parts_list
 
+def parse_containers(containers):
+    """Parse the list of containers and quantities"""
+    container_list = []
+    for container in containers:
+        container = container.split(',')
+        width = float(container[0])
+        height = float(container[1])
+        depth = float(container[2])
+        quantity = int(container[3])
+        container_list.append((width, height, depth, quantity))
+    return container_list
+
 def main():
     """ Parse command line arguments
      Arguments:
@@ -62,14 +74,16 @@ def main():
     parser.add_argument("master_parts_file", help="TXT file downloaded from Bricklink", type=pathlib.Path,
                         default="data/Parts.txt")
     parser.add_argument("user_parts_file", help="CSV file downloaded from Rebrickable", type=pathlib.Path)
-    #parser.add_argument("containers", help="List of containers and quantities, where each item is in the format 'x,y,z,#'," 
-    #                    +"where x, y, and z are floats of the dimensions, and # is the quantity of that container",
-    #                    nargs='+', type=str)
+    parser.add_argument("containers", help="List of containers and quantities, where each item is in the format 'x,y,z,#'," 
+                        +"where x, y, and z are floats of the dimensions, and # is the quantity of that container",
+                        nargs='+', type=str)
     args = parser.parse_args()
     parts_dict = parse_master_parts_file(args.master_parts_file)
-    print(parts_dict)
+    #print(parts_dict)
     user_parts = parse_user_parts_file(args.user_parts_file)
-    print(user_parts)
+    #print(user_parts)
+    containers = parse_containers(args.containers)
+    print(containers)
 
 if __name__ == "__main__":
     main()

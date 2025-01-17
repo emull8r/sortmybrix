@@ -3,6 +3,8 @@ import pathlib
 import csv
 from collections import namedtuple
 
+# TODO use Spark
+
 Part = namedtuple('Part', ['Part', 'Color', 'Quantity'])
 
 def parse_master_parts_file(master_parts_file):

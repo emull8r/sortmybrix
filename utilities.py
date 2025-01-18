@@ -8,6 +8,10 @@ def convert_inches_to_centimeters(inches):
     """Convert inches to centimeters"""
     return inches * 2.54
 
+def convert_studs_to_centimeters(studs):
+    """Convert LEGO studs to centimeters"""
+    return studs * 0.8
+
 def calculate_volume(width, height, depth):
     """Calculate the volume of a rectangular prism"""
     return width * height * depth

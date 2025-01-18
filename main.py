@@ -76,7 +76,8 @@ def calculate_total_volume_of_parts(parts_list, parts_dict):
             #print(f"Part {part_id} not found in parts dictionary!")
             continue
         quantity = part.Quantity
-        part_volume = parts_dict[part_id]['width'] * parts_dict[part_id]['height'] * parts_dict[part_id]['depth']
+        part_volume_in_studs = parts_dict[part_id]['width'] * parts_dict[part_id]['height'] * parts_dict[part_id]['depth']
+        part_volume = part_volume_in_studs * 0.8**3
         total_volume += part_volume * quantity
     return total_volume
 

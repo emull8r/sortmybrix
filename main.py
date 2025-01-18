@@ -48,6 +48,10 @@ def parse_user_parts_file(user_parts_file):
         reader = csv.DictReader(csvfile)
         for row in reader:
             part = Part(Part=row['Part'], Color=int(row['Color']), Quantity=int(row['Quantity']))
+            if part.Part == "2436":
+                print(f"Found part 2436: {part}")
+            if part.Part == "3005":
+                print(f"Found part 3005: {part}")
             parts_list.append(part)
     return parts_list
 
@@ -62,6 +66,19 @@ def parse_containers(containers):
         quantity = int(container[3])
         container_list.append((width, height, depth, quantity))
     return container_list
+
+def calculate_total_volume_of_parts(parts_list, parts_dict):
+    """Calculate the total volume of parts in the user's inventory"""
+    total_volume = 0
+    for part in parts_list:
+        part_id = part.Part
+        if part_id not in parts_dict:
+            #print(f"Part {part_id} not found in parts dictionary!")
+            continue
+        quantity = part.Quantity
+        part_volume = parts_dict[part_id]['width'] * parts_dict[part_id]['height'] * parts_dict[part_id]['depth']
+        total_volume += part_volume * quantity
+    return total_volume
 
 def main():
     """ Parse command line arguments
@@ -81,11 +98,13 @@ def main():
                         nargs='+', type=str)
     args = parser.parse_args()
     parts_dict = parse_master_parts_file(args.master_parts_file)
+    print(f"Dimensions of 2436: {parts_dict['2436']}")
     #print(parts_dict)
     user_parts = parse_user_parts_file(args.user_parts_file)
     #print(user_parts)
-    containers = parse_containers(args.containers)
-    print(containers)
+    #containers = parse_containers(args.containers)
+    total_volume = calculate_total_volume_of_parts(user_parts, parts_dict)
+    print(f"Total volume of all your parts: {total_volume}")
 
 if __name__ == "__main__":
     main()
